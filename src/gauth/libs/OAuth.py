@@ -30,7 +30,7 @@ class OAuth(object):
 
     def is_login(self):        
         if os.path.isfile(self.credential_file)==False:
-            credencial = {"installed":{"client_id":"834833311214-q58q01f1kas0299ak1u9voc6h4ldntsv.apps.googleusercontent.com","project_id":"qqda-372912","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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","redirect_uris":["http://localhost"]}}
+            credencial = {"installed":{"client_id":"YOUR-CLIENT_ID.apps.googleusercontent.com","project_id":"YOUR-PROJECT-ID","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"YOUR_CLIENT_SECRET","redirect_uris":["http://localhost"]}}
             self.write_file(self.credential_file, json.dumps(credencial))
             
         if os.path.isfile(self.token_file) == False:

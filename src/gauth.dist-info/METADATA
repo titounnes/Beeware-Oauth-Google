@@ -1,0 +1,11 @@
+Metadata-Version: 2.1
+Briefcase-Version: 0.3.11
+Name: gauth
+Formal-Name: GAuth
+App-ID: com.example.gauth
+Version: 0.0.1
+Home-page: https://example.com/gauth
+Download-URL: https://example.com/gauth
+Author: Harjito
+Author-email: harjito@mail.unnes.ac.id
+Summary: Google Oauth

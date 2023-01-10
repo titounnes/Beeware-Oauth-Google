@@ -8,11 +8,13 @@ class OAuth(object):
     
     home = os.getenv('HOME')
     scopes = ["https://www.googleapis.com/auth/userinfo.profile"]
+    credencial = {"installed":{"client_id":"YOUR-CLIENT_ID.apps.googleusercontent.com","project_id":"YOUR-PROJECT-ID","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"YOUR_CLIENT_SECRET","redirect_uris":["http://localhost"]}}
+
     def __init__(self, dotfile):
         self.config = "".join([self.home, '/.', dotfile])
         self.credential_file = "".join([self.config, '/credential.json'])
         self.token_file = "".join([self.config, '/token.json']) 
-
+        self.tmp = "".join([self.config, '/.tmp'])
         if os.path.isdir(self.config) == False:
             os.system("mkdir %s"%(self.config))
     
@@ -29,9 +31,6 @@ class OAuth(object):
 
 
     def is_login(self):        
-        if os.path.isfile(self.credential_file)==False:
-            credencial = {"installed":{"client_id":"YOUR-CLIENT_ID.apps.googleusercontent.com","project_id":"YOUR-PROJECT-ID","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"YOUR_CLIENT_SECRET","redirect_uris":["http://localhost"]}}
-            self.write_file(self.credential_file, json.dumps(credencial))
             
         if os.path.isfile(self.token_file) == False:
             return False
@@ -51,7 +50,9 @@ class OAuth(object):
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(self.credential_file, self.scopes)
+                self.write_file(self.tmp, json.dumps(self.credencial))                
+                flow = InstalledAppFlow.from_client_secrets_file(self.tmp, self.scopes)
+                os.system('rm %s'%(self.tmp))
                 creds = flow.run_local_server(port=0)
 
         self.write_file(self.token_file, creds.to_json())

@@ -50,9 +50,7 @@ class OAuth(object):
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
-                self.write_file(self.tmp, json.dumps(self.credencial))                
-                flow = InstalledAppFlow.from_client_secrets_file(self.tmp, self.scopes)
-                os.system('rm %s'%(self.tmp))
+                flow = InstalledAppFlow.from_client_config(self.credencial, self.scopes)
                 creds = flow.run_local_server(port=0)
 
         self.write_file(self.token_file, creds.to_json())

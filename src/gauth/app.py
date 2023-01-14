@@ -4,7 +4,8 @@ Google Oauth
 import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
-from gauth.libs.OAuth import OAuth
+from gauth.modules.auth.OAuth import OAuth
+from gauth.modules.view.Menu import Menu
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -25,8 +26,41 @@ class GAuth(toga.App):
         self.main_window.content = main_box
         self.main_window.show()
 
+        Menu(self).generate({
+            'App' : [
+                {
+                    'callback' : self.project,
+                    'text' : 'Project',
+                    'shortcut' : 'P',
+                    'enabled' : False
+                },{
+                    'callback' : self.login,
+                    'text' : 'Login',
+                    'shortcut' : 'L',
+                    'enabled' : False
+                },{
+                    'callback' : self.logout,
+                    'text' : 'Logout',
+                    'shortcut' : 'O',
+                    'enabled' : False
+                }],
+            'Source' : [
+                {
+                    'callback' :self.reference,
+                    'text' : 'References',
+                    'shortcut' : 'R',
+                    'enabled' : False
+                },{
+                    'callback' :self.fulltext,
+                    'text' : 'Fulltext',
+                    'shortcut' : 'T',
+                    'enabled' : False
+                }
+            ]
+        })
+
+  
         auth = OAuth('gauth')
-          
         user_info = auth.is_login() 
         if  user_info == False:
             user_info = auth.login()

@@ -15,7 +15,7 @@ class Menu(object):
                 cmd[item+'_cmd'] = toga.Command(
                     key['callback'],
                     text = key['text'],
-                    shortcut = key['shortcut'],
+                    shortcut = key.get('shortcut'),
                     enabled = key['enabled'],
                     section = i
                 )
@@ -31,7 +31,7 @@ class Menu(object):
             
                 self.app.commands.add(cmd[item+'_cmd'])
 
-    def toogle(self, data):
+    def toggle(self, data):
         for item in self.app.commands:
             if type(item) == toga.command.Command:
                 if item.text in data:

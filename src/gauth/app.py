@@ -25,15 +25,11 @@ class GAuth(toga.App):
         self.main_window = toga.MainWindow(title=self.formal_name)
         self.main_window.content = main_box
         self.main_window.show()
-
-        Menu(self).generate({
+        
+        self.menu = Menu(self)
+        self.menu.generate({
             'App' : [
                 {
-                    'callback' : self.project,
-                    'text' : 'Project',
-                    'shortcut' : 'P',
-                    'enabled' : False
-                },{
                     'callback' : self.login,
                     'text' : 'Login',
                     'shortcut' : 'L',
@@ -44,28 +40,45 @@ class GAuth(toga.App):
                     'shortcut' : 'O',
                     'enabled' : False
                 }],
-            'Source' : [
+            'Edit' : [
                 {
-                    'callback' :self.reference,
-                    'text' : 'References',
-                    'shortcut' : 'R',
+                    'callback' :self.data_1,
+                    'text' : 'Data 1',
                     'enabled' : False
                 },{
-                    'callback' :self.fulltext,
-                    'text' : 'Fulltext',
-                    'shortcut' : 'T',
+                    'callback' :self.data_2,
+                    'text' : 'Data_2',
                     'enabled' : False
                 }
             ]
         })
 
-  
-        auth = OAuth('gauth')
-        user_info = auth.is_login() 
-        if  user_info == False:
-            user_info = auth.login()
-            
+        self.auth = OAuth('gauth')
+        user_info = self.auth.is_login()
+        if user_info:
+            self.main_window.info_dialog('Info', 'Welcome %s'%(user_info['name']))
+            self.menu.toggle(['Logout'])
+        else:
+            self.menu.toggle(['Login'])
+
+    def login(self, widget):
+        user_info = self.auth.login()
         self.main_window.info_dialog('Info', 'Welcome %s'%(user_info['name']))
-        
+        self.menu.toggle(['Login', 'Logout','Data 1','Data 2'])
+    
+    async def logout(self, widget):
+        if await self.main_window.confirm_dialog('Confirmation', 'Are you sure?'):
+            self.auth.logout()
+            self.menu.toggle(['Login', 'Logout','Data 1','Data 2'])
+            self.main_window.info_dialog('Info', 'You are logout succesfully.')
+            
+
+
+    def data_1(self, widget):
+        pass 
+
+    def data_2(self, widget):
+        pass 
+
 def main():
     return GAuth()

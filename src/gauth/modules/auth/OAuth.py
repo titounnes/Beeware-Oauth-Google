@@ -59,3 +59,6 @@ class OAuth(object):
         self.write_file(self.token_file, creds.to_json())
 
         return self.get_info(creds)
+
+    def logout(self):
+        os.system('rm %s'%(self.token_file))

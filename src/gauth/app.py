@@ -4,8 +4,7 @@ Google Oauth
 import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
-from gauth.modules import OAuth, Menu, Form
-import os, yaml
+from gauth.modules import OAuth, Menu, Form, Yaml
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -27,10 +26,7 @@ class GAuth(toga.App):
         self.main_window.show()
         
         self.menu = Menu(self)
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        with open(dir_path+'/modules/config/menu.yaml', 'r') as f:
-            config_menu = yaml.load(f, Loader=yaml.FullLoader)
-        self.menu.generate(config_menu)
+        self.menu.generate(Yaml(__file__).load('modules/config/menu.yaml'))
 
         self.auth = OAuth('gauth')
         user_info = self.auth.is_login()

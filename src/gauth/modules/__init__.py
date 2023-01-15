@@ -1,2 +1,3 @@
 from gauth.modules.auth.OAuth import OAuth 
 from gauth.modules.view.Menu import Menu 
+from gauth.modules.view.Form import Form 

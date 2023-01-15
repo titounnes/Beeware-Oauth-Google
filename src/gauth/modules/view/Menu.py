@@ -13,7 +13,7 @@ class Menu(object):
             i = 0
             for key in data[item]: 
                 cmd[item+'_cmd'] = toga.Command(
-                    key['callback'],
+                    self.app.menu_click,
                     text = key['text'],
                     shortcut = key.get('shortcut'),
                     enabled = key['enabled'],

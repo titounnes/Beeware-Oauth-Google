@@ -4,8 +4,8 @@ Google Oauth
 import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
-from gauth.modules.auth.OAuth import OAuth
-from gauth.modules.view.Menu import Menu
+from gauth.modules import OAuth, Menu, Form
+import os, yaml
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -27,31 +27,10 @@ class GAuth(toga.App):
         self.main_window.show()
         
         self.menu = Menu(self)
-        self.menu.generate({
-            'App' : [
-                {
-                    'callback' : self.login,
-                    'text' : 'Login',
-                    'shortcut' : 'L',
-                    'enabled' : False
-                },{
-                    'callback' : self.logout,
-                    'text' : 'Logout',
-                    'shortcut' : 'O',
-                    'enabled' : False
-                }],
-            'Edit' : [
-                {
-                    'callback' :self.data_1,
-                    'text' : 'Data 1',
-                    'enabled' : False
-                },{
-                    'callback' :self.data_2,
-                    'text' : 'Data_2',
-                    'enabled' : False
-                }
-            ]
-        })
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        with open(dir_path+'/modules/config/menu.yaml', 'r') as f:
+            config_menu = yaml.load(f, Loader=yaml.FullLoader)
+        self.menu.generate(config_menu)
 
         self.auth = OAuth('gauth')
         user_info = self.auth.is_login()
@@ -60,6 +39,13 @@ class GAuth(toga.App):
             self.menu.toggle(['Logout'])
         else:
             self.menu.toggle(['Login'])
+
+    async def menu_click(self, widget):
+        match widget.text:
+            case 'Login':
+                self.login(widget)
+            case 'Logout':
+                await self.logout(widget)
 
     def login(self, widget):
         user_info = self.auth.login()
@@ -71,8 +57,6 @@ class GAuth(toga.App):
             self.auth.logout()
             self.menu.toggle(['Login', 'Logout','Data 1','Data 2'])
             self.main_window.info_dialog('Info', 'You are logout succesfully.')
-            
-
 
     def data_1(self, widget):
         pass 

@@ -1,0 +1,12 @@
+App :
+-   text: Login
+    shortcut : L
+    enabled : False
+-   text: Logout
+    shortcut : O
+    enabled : False
+Edit :
+-   text: Data 1
+    enabled : False
+-   text: Data 2
+    enabled : False

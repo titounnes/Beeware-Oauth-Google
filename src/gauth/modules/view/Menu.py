@@ -1,6 +1,6 @@
 import toga, os
-from gauth.modules.fileSystem.yaml import Yaml
-from gauth.modules.fileSystem.file import File
+from ..fileSystem.yaml import Yaml
+from ..fileSystem.file import File
 
 class Menu(object):
     def __init__(self, app):

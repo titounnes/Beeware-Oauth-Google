@@ -1,12 +1,10 @@
-import os, yaml
+import yaml 
+from gauth.modules.fileSystem.file import File
 
-class Yaml(object):
-    def __init__(self, pos):
-        self.root = os.path.dirname(os.path.realpath(pos)) 
-    
+class Yaml(object):    
     def load(self, path):
-        path = self.root+'/'+path
-        if os.path.isfile(path):
+        path = File().get_path(path)
+        if path:
             with open(path, 'r') as f:
                 return yaml.load(f, Loader=yaml.FullLoader)
         else:

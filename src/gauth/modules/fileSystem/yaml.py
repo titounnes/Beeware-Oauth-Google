@@ -1,5 +1,5 @@
 import yaml 
-from gauth.modules.fileSystem.file import File
+from ..fileSystem.file import File
 
 class Yaml(object):    
     def load(self, path):
